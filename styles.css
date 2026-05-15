@@ -372,6 +372,33 @@ code {
   border-color: var(--accent);
 }
 
+.lang-toggle {
+  flex: 0 0 auto;
+  min-width: 54px;
+  min-height: 38px;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(255, 235, 196, 0.24);
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.045);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.lang-toggle:hover {
+  color: #14100a;
+  background: var(--accent-warm);
+  border-color: var(--accent-warm);
+}
+
+.lang-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 main {
   max-width: 1180px;
   margin: 0 auto;
@@ -794,6 +821,10 @@ main {
   }
 
   .music-toggle {
+    align-self: flex-start;
+  }
+
+  .lang-toggle {
     align-self: flex-start;
   }
 

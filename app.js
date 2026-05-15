@@ -1,12 +1,12 @@
 const GAME_IMAGES = {
   stillwater: [
-    "图片/StillWater1.png",
+    "图片/StillWater7.png",
     "图片/StillWater2.png",
     "图片/StillWater3.png",
     "图片/StillWater4.png",
     "图片/StillWater5.png",
     "图片/StillWater6.png",
-    "图片/StillWater7.png",
+    "图片/StillWater1.png",
     "图片/StillWater8.png",
   ],
 };
@@ -26,6 +26,7 @@ function initGallery(section) {
   if (!galleryRoot || !mainImg || !counter || !thumbList || !btnPrev || !btnNext) return;
 
   let index = 0;
+  let autoplayId;
 
   function setIndex(next) {
     const n = urls.length;
@@ -35,6 +36,16 @@ function initGallery(section) {
     thumbList.querySelectorAll("button").forEach((button, i) => {
       button.classList.toggle("is-active", i === index);
     });
+  }
+
+  function restartAutoplay() {
+    if (autoplayId) {
+      clearInterval(autoplayId);
+    }
+
+    if (urls.length > 1) {
+      autoplayId = setInterval(() => setIndex(index + 1), 5000);
+    }
   }
 
   thumbList.replaceChildren();
@@ -52,26 +63,38 @@ function initGallery(section) {
     img.decoding = "async";
 
     btn.appendChild(img);
-    btn.addEventListener("click", () => setIndex(i));
+    btn.addEventListener("click", () => {
+      setIndex(i);
+      restartAutoplay();
+    });
     li.appendChild(btn);
     thumbList.appendChild(li);
   });
 
-  btnPrev.addEventListener("click", () => setIndex(index - 1));
-  btnNext.addEventListener("click", () => setIndex(index + 1));
+  btnPrev.addEventListener("click", () => {
+    setIndex(index - 1);
+    restartAutoplay();
+  });
+  btnNext.addEventListener("click", () => {
+    setIndex(index + 1);
+    restartAutoplay();
+  });
 
   galleryRoot.tabIndex = 0;
   galleryRoot.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
       setIndex(index - 1);
+      restartAutoplay();
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
       setIndex(index + 1);
+      restartAutoplay();
     }
   });
 
   setIndex(0);
+  restartAutoplay();
 }
 
 document.querySelectorAll(".game-section").forEach(initGallery);
@@ -159,3 +182,32 @@ function initAmbientBackground() {
 }
 
 initAmbientBackground();
+
+function initLanguageToggle() {
+  const toggle = document.querySelector("[data-lang-toggle]");
+  if (!toggle) return;
+
+  const translatable = document.querySelectorAll("[data-i18n]");
+  let current = "zh";
+
+  function setLanguage(next) {
+    current = next;
+    document.documentElement.lang = current === "zh" ? "zh-CN" : "en";
+    translatable.forEach((element) => {
+      const value = element.dataset[current];
+      if (value) {
+        element.textContent = value;
+      }
+    });
+    toggle.textContent = current === "zh" ? "EN" : "中文";
+    toggle.setAttribute("aria-pressed", String(current === "en"));
+  }
+
+  toggle.addEventListener("click", () => {
+    setLanguage(current === "zh" ? "en" : "zh");
+  });
+
+  setLanguage("zh");
+}
+
+initLanguageToggle();
