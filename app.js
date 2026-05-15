@@ -11,6 +11,24 @@ const GAME_IMAGES = {
   ],
 };
 
+const LANGUAGE_STORAGE_KEY = "game-demo-language";
+
+function readSavedLanguage() {
+  try {
+    return localStorage.getItem(LANGUAGE_STORAGE_KEY) === "en" ? "en" : "zh";
+  } catch {
+    return "zh";
+  }
+}
+
+function saveLanguage(lang) {
+  try {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+  } catch {
+    // Local storage can be unavailable in strict privacy modes.
+  }
+}
+
 function initGallery(section) {
   const key = section.dataset.game;
   const urls = GAME_IMAGES[key];
@@ -137,8 +155,15 @@ function initPageMusic() {
   }
 
   function updateToggle() {
+    const lang = readSavedLanguage();
     toggle.hidden = false;
-    toggle.textContent = audio.paused ? "播放音乐" : "暂停音乐";
+    toggle.textContent = audio.paused
+      ? lang === "en"
+        ? "Play Music"
+        : "播放音乐"
+      : lang === "en"
+        ? "Pause Music"
+        : "暂停音乐";
     toggle.classList.toggle("is-playing", !audio.paused);
   }
 
@@ -171,6 +196,7 @@ function initPageMusic() {
   audio.addEventListener("ended", () => playFromLoopStart(true));
   audio.addEventListener("play", updateToggle);
   audio.addEventListener("pause", updateToggle);
+  document.addEventListener("site-language-change", updateToggle);
 
   toggle.addEventListener("click", () => {
     if (audio.paused) {
@@ -214,13 +240,12 @@ initAmbientBackground();
 
 function initLanguageToggle() {
   const toggle = document.querySelector("[data-lang-toggle]");
-  if (!toggle) return;
-
   const translatable = document.querySelectorAll("[data-i18n]");
-  let current = "zh";
+  let current = readSavedLanguage();
 
   function setLanguage(next) {
     current = next;
+    saveLanguage(current);
     document.documentElement.lang = current === "zh" ? "zh-CN" : "en";
     translatable.forEach((element) => {
       const value = element.dataset[current];
@@ -228,15 +253,20 @@ function initLanguageToggle() {
         element.textContent = value;
       }
     });
-    toggle.textContent = current === "zh" ? "EN" : "中文";
-    toggle.setAttribute("aria-pressed", String(current === "en"));
+    if (toggle) {
+      toggle.textContent = current === "zh" ? "EN" : "中文";
+      toggle.setAttribute("aria-pressed", String(current === "en"));
+    }
+    document.dispatchEvent(new CustomEvent("site-language-change", { detail: { lang: current } }));
   }
 
-  toggle.addEventListener("click", () => {
-    setLanguage(current === "zh" ? "en" : "zh");
-  });
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      setLanguage(current === "zh" ? "en" : "zh");
+    });
+  }
 
-  setLanguage("zh");
+  setLanguage(current);
 }
 
 initLanguageToggle();
