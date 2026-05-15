@@ -584,14 +584,21 @@ main {
 
 .windows-icon,
 .download-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
   transition: opacity 0.32s ease, transform 0.32s ease;
 }
 
 .windows-icon {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
   color: #000;
+  opacity: 1;
+  transform: translate(-50%, -50%);
 }
 
 .windows-icon path {
@@ -599,9 +606,9 @@ main {
 }
 
 .download-text {
-  position: absolute;
   opacity: 0;
-  transform: translateY(6px);
+  white-space: nowrap;
+  transform: translate(-50%, calc(-50% + 6px));
 }
 
 .download-link:hover {
@@ -613,13 +620,13 @@ main {
 .download-link:hover .windows-icon,
 .download-link:focus-visible .windows-icon {
   opacity: 0;
-  transform: translateY(-6px) scale(0.92);
+  transform: translate(-50%, calc(-50% - 6px)) scale(0.92);
 }
 
 .download-link:hover .download-text,
 .download-link:focus-visible .download-text {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, -50%);
 }
 
 .download-link:focus-visible {
