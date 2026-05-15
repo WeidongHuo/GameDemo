@@ -538,10 +538,12 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   margin-top: 0.85rem;
   min-width: 170px;
   min-height: 44px;
   padding: 0.72rem 1.35rem;
+  overflow: hidden;
   border: 1px solid rgba(231, 198, 107, 0.56);
   border-radius: 999px;
   color: #11100a;
@@ -553,10 +555,46 @@ main {
   transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
+.windows-icon,
+.download-text {
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.windows-icon {
+  display: grid;
+  grid-template-columns: repeat(2, 9px);
+  grid-template-rows: repeat(2, 9px);
+  gap: 3px;
+}
+
+.windows-icon span {
+  display: block;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.download-text {
+  position: absolute;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
 .download-link:hover {
   transform: translateY(-2px);
   filter: brightness(1.06);
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42), 0 0 30px rgba(231, 198, 107, 0.28);
+}
+
+.download-link:hover .windows-icon,
+.download-link:focus-visible .windows-icon {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.92);
+}
+
+.download-link:hover .download-text,
+.download-link:focus-visible .download-text {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .download-link:focus-visible {
