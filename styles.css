@@ -372,6 +372,11 @@ code {
   border-color: var(--accent);
 }
 
+.music-toggle.needs-gesture {
+  border-color: rgba(231, 198, 107, 0.68);
+  box-shadow: 0 0 0 3px rgba(231, 198, 107, 0.12), 0 0 24px rgba(231, 198, 107, 0.18);
+}
+
 .lang-toggle {
   flex: 0 0 auto;
   min-width: 54px;

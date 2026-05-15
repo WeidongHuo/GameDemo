@@ -105,6 +105,26 @@ function initPageMusic() {
   if (!audio || !toggle) return;
 
   const loopStart = Number(audio.dataset.loopStart || 0);
+  const unlockEvents = ["pointerdown", "touchend", "keydown"];
+  let waitingForGesture = false;
+
+  function removeGestureUnlock() {
+    if (!waitingForGesture) return;
+    waitingForGesture = false;
+    unlockEvents.forEach((eventName) => {
+      document.removeEventListener(eventName, unlockFromGesture, true);
+    });
+    toggle.classList.remove("needs-gesture");
+  }
+
+  function addGestureUnlock() {
+    if (waitingForGesture) return;
+    waitingForGesture = true;
+    unlockEvents.forEach((eventName) => {
+      document.addEventListener(eventName, unlockFromGesture, true);
+    });
+    toggle.classList.add("needs-gesture");
+  }
 
   function seekToLoopStart() {
     if (!Number.isFinite(loopStart)) return;
@@ -130,11 +150,20 @@ function initPageMusic() {
     try {
       await audio.play();
     } catch {
+      addGestureUnlock();
       updateToggle();
-      return;
+      return false;
     }
 
+    removeGestureUnlock();
     updateToggle();
+    return true;
+  }
+
+  function unlockFromGesture(e) {
+    if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
+    if (e.target instanceof Element && e.target.closest("[data-music-toggle]")) return;
+    playFromLoopStart();
   }
 
   audio.volume = 0.65;
