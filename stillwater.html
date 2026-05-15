@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StillWater - 游戏 DEMO 展示</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="detail-page ambient-home">
+    <div class="ambient-scene" aria-hidden="true">
+      <div class="ambient-base"></div>
+      <div class="ambient-forgive-light"></div>
+      <div class="ambient-red-wash"></div>
+      <div class="ambient-vignette"></div>
+    </div>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo" href="index.html">
+          <img class="logo-mark" src="图片/LOGO.png" alt="" width="1254" height="1254" decoding="async" />
+          <span>Game Demos</span>
+        </a>
+        <nav class="nav" aria-label="游戏导航">
+          <a class="nav-link" href="index.html">返回首页</a>
+          <a class="nav-link" href="#screenshots">图片预览</a>
+          <a class="nav-link" href="#intro">游戏简介</a>
+        </nav>
+        <button class="music-toggle" type="button" data-music-toggle hidden>播放音乐</button>
+      </div>
+    </header>
+
+    <main class="detail-main">
+      <section class="detail-cover" aria-label="StillWater 展示图">
+        <div class="cover-frame">
+          <img src="图片/StillWater展示图.png" alt="StillWater 游戏展示图" width="1672" height="941" decoding="async" />
+        </div>
+        <p class="version-label">版本-V0.1.0</p>
+        <a class="download-link" href="https://github.com/WeidongHuo/GameDemo/releases/download/v0.1.0/StillWater.zip">DOWNLOADE</a>
+      </section>
+
+      <section id="screenshots" class="game-section detail-gallery" data-game="stillwater">
+        <div class="game-head">
+          <h1>StillWater 图片预览</h1>
+          <p class="game-tagline">点击缩略图切换画面，也可以在大图左半区 / 右半区切换上一张或下一张。</p>
+        </div>
+        <div class="gallery" role="region" aria-label="StillWater 画面画廊">
+          <div class="gallery-main">
+            <img class="gallery-image" alt="StillWater 截图" src="" width="1920" height="1080" decoding="async" />
+            <button type="button" class="hit hit-prev" aria-label="上一张"></button>
+            <button type="button" class="hit hit-next" aria-label="下一张"></button>
+            <div class="gallery-counter" aria-live="polite"></div>
+          </div>
+          <ul class="thumbs" role="list"></ul>
+        </div>
+      </section>
+
+      <section class="video-section" aria-label="StillWater 动态 GIF">
+        <img class="loop-gif" src="图片/船上眺望动态.gif" alt="船上眺望动态展示" width="960" height="540" loading="lazy" decoding="async" />
+      </section>
+
+      <section id="intro" class="intro-section">
+        <p class="section-kicker">游戏简介</p>
+        <h2>静水岛-这一次，你会记得多少？。</h2>
+        <p class="intro-subtitle">一场发生在孤岛上的谋杀，一段不断重启的时间循环，以及一群始终不肯说出全部真相的居民。</p>
+
+        <div class="intro-copy">
+          <p>你在第 1 天清晨抵达静水岛。这里安静、潮湿、秩序井然，却处处透着不该存在的熟悉感。</p>
+          <p>居民们看似平静地生活着：有人管理食物，有人管理秩序，有人逃避债务，有人害怕过去，有人像早已知道结局一样注视着你。直到第三天清晨，某人的死亡打破了这脆弱的平衡。</p>
+          <p>尽可能的调查每个人隐瞒的那一部分真相，同时靠自己生存下去。你会发现，真正可怕的也许不是谁杀了谁，而是为什么这一切已经发生过不止一次。</p>
+        </div>
+
+        <h3>特色介绍</h3>
+        <ul class="feature-list">
+          <li>在日常生活与悬疑调查之间推进剧情</li>
+          <li>通过对话、偷听、线索搜查逐步拼出真相</li>
+          <li>每位居民都有动机，也都有无法坦白的秘密</li>
+          <li>时间循环？还是虚构的记忆？</li>
+          <li>多结局路线：维持封印，或打破循环（制作中！）</li>
+        </ul>
+
+        <p class="ai-disclosure">游戏中部分绘图使用了AI</p>
+      </section>
+    </main>
+
+    <audio data-page-music src="音乐/DEMOENDingMusic.mp3" preload="auto" data-loop-start="195"></audio>
+    <script src="app.js"></script>
+  </body>
+</html>
