@@ -12,8 +12,18 @@ const GAME_IMAGES = {
 };
 
 const LANGUAGE_STORAGE_KEY = "game-demo-language";
+const LANGUAGE_VALUES = new Set(["zh", "en"]);
+const LANGUAGE_AWARE_PAGES = new Set(["index.html", "stillwater.html"]);
+
+function readUrlLanguage() {
+  const lang = new URLSearchParams(window.location.search).get("lang");
+  return LANGUAGE_VALUES.has(lang) ? lang : null;
+}
 
 function readSavedLanguage() {
+  const urlLang = readUrlLanguage();
+  if (urlLang) return urlLang;
+
   try {
     return localStorage.getItem(LANGUAGE_STORAGE_KEY) === "en" ? "en" : "zh";
   } catch {
@@ -27,6 +37,33 @@ function saveLanguage(lang) {
   } catch {
     // Local storage can be unavailable in strict privacy modes.
   }
+}
+
+function withLanguageInHref(rawHref, lang) {
+  if (!rawHref || rawHref.startsWith("#")) return rawHref;
+  if (/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(rawHref)) return rawHref;
+  if (/^(?:mailto|tel|javascript):/i.test(rawHref)) return rawHref;
+
+  const match = rawHref.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+  if (!match) return rawHref;
+
+  const path = match[1] || "";
+  const page = path.split("/").pop();
+  if (!LANGUAGE_AWARE_PAGES.has(page)) return rawHref;
+
+  const params = new URLSearchParams(match[2] ? match[2].slice(1) : "");
+  params.set("lang", lang);
+  return `${path}?${params.toString()}${match[3] || ""}`;
+}
+
+function updateLanguageLinks(lang) {
+  document.querySelectorAll("a[href]").forEach((link) => {
+    const href = link.getAttribute("href");
+    const next = withLanguageInHref(href, lang);
+    if (next !== href) {
+      link.setAttribute("href", next);
+    }
+  });
 }
 
 function initGallery(section) {
@@ -253,6 +290,7 @@ function initLanguageToggle() {
         element.textContent = value;
       }
     });
+    updateLanguageLinks(current);
     if (toggle) {
       toggle.textContent = current === "zh" ? "EN" : "中文";
       toggle.setAttribute("aria-pressed", String(current === "en"));
