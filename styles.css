@@ -561,16 +561,14 @@ main {
 }
 
 .windows-icon {
-  display: grid;
-  grid-template-columns: repeat(2, 9px);
-  grid-template-rows: repeat(2, 9px);
-  gap: 3px;
+  display: block;
+  width: 32px;
+  height: 32px;
+  color: #000;
 }
 
-.windows-icon span {
-  display: block;
-  background: currentColor;
-  border-radius: 1px;
+.windows-icon path {
+  fill: currentColor;
 }
 
 .download-text {
