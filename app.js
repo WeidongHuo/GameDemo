@@ -253,7 +253,7 @@ function initAmbientBackground() {
   const targets = document.querySelectorAll("[data-bg-target]");
   if (!targets.length) return;
 
-  const states = ["ambient-stillwater", "ambient-forgive"];
+  const states = ["ambient-stillwater", "ambient-forgive", "ambient-pet-hospital"];
 
   function setAmbient(name) {
     document.body.classList.remove(...states);
@@ -261,6 +261,8 @@ function initAmbientBackground() {
       document.body.classList.add("ambient-stillwater");
     } else if (name === "forgive") {
       document.body.classList.add("ambient-forgive");
+    } else if (name === "pet-hospital") {
+      document.body.classList.add("ambient-pet-hospital");
     }
   }
 

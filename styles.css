@@ -83,6 +83,17 @@ body {
   transition: opacity 0.65s ease, transform 7s ease;
 }
 
+.ambient-base::after {
+  content: "";
+  position: absolute;
+  inset: -2%;
+  opacity: 0;
+  background: center / cover no-repeat url("图片/PetHospital游戏封面背景.png");
+  filter: saturate(0.94) brightness(0.58);
+  transform: scale(1.04);
+  transition: opacity 0.75s ease, transform 7s ease;
+}
+
 .ambient-forgive-light {
   opacity: 1;
   background:
@@ -161,6 +172,22 @@ body {
 }
 
 .ambient-stillwater .ambient-forgive-light {
+  opacity: 0;
+  animation: none;
+}
+
+.ambient-pet-hospital .ambient-base {
+  background:
+    linear-gradient(180deg, rgba(9, 8, 10, 0.2), rgba(8, 7, 8, 0.72) 48%, rgba(4, 3, 4, 0.94)),
+    linear-gradient(122deg, rgba(57, 40, 34, 0.34), transparent 42%, rgba(27, 43, 42, 0.25));
+}
+
+.ambient-pet-hospital .ambient-base::after {
+  opacity: 0.76;
+  transform: scale(1.01);
+}
+
+.ambient-pet-hospital .ambient-forgive-light {
   opacity: 0;
   animation: none;
 }
@@ -429,7 +456,7 @@ main {
 
 .demo-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -875,6 +902,12 @@ main {
 
   :root {
     --header-h: 104px;
+  }
+}
+
+@media (max-width: 980px) and (min-width: 761px) {
+  .demo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
